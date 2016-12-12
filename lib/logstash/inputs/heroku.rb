@@ -12,9 +12,12 @@ require "logstash/namespace"
 # [source,ruby]
 #     filter {
 #       grok {
-#         pattern => "^%{TIMESTAMP_ISO8601:timestamp} %{WORD:component}\[%{WORD:process}(?:\.%{INT:instance:int})?\]: %{DATA:message}$"
+#         match => { "message" => "^%{TIMESTAMP_ISO8601:timestamp} %{WORD:component}\[%{WORD:process}(?:\.%{INT:instance:int})?\]: %{DATA:message}$" }
+#         overwrite => ["message"
 #       }
-#       date { timestamp => ISO8601 }
+#       date { 
+#         match => [ "timestamp", "ISO8601" ]
+#       }
 #     }
 class LogStash::Inputs::Heroku < LogStash::Inputs::Base
   config_name "heroku"
